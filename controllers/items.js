@@ -9,9 +9,9 @@ exports.create_item = (req, res) => {
 
   const new_item = new Item({title, description})
   new_item.save()
-  .then(() => {
-    console.log(`New item inserted`)
-    res.send('OK')
+  .then((result) => {
+    console.log(`[Mongoose] New item inserted`)
+    res.send(result)
   })
   .catch(error => {
     console.log(error)
@@ -25,6 +25,7 @@ exports.read_item = (req, res) => {
 
   Item.findById(item_id)
   .then(item => {
+    console.log(`[Mongoose] Item ${item_id} queried`)
     res.send(item)
   })
   .catch(error => {
@@ -40,8 +41,9 @@ exports.update_item = (req, res) => {
   const new_properties = req.body
 
   Item.updateOne({_id: item_id}, new_properties)
-  .then(() => {
-    res.send('Update OK')
+  .then((result) => {
+    console.log(`[Mongoose] Item ${item_id} updated`)
+    res.send(result)
   })
   .catch(error => {
     console.log(error)
@@ -55,6 +57,7 @@ exports.delete_item = (req, res) => {
 
   Item.deleteOne({_id: item_id})
   .then(() => {
+    console.log(`[Mongoose] Item ${item_id} deleted`)
     res.send('OK')
   })
   .catch(error => {
@@ -66,6 +69,7 @@ exports.delete_item = (req, res) => {
 exports.read_all_items = (req, res) => {
   Item.find({})
   .then(items => {
+    console.log(`[Mongoose] Items queried`)
     res.send(items)
   })
   .catch(error => {
