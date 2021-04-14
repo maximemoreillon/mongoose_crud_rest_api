@@ -13,6 +13,10 @@ const mongoose_options = {
   useUnifiedTopology: true,
   //useFindAndModify: false
 }
+const mongodb_db = process.env.MONGODB_DB || 'mongoose_crud_api'
+const mongoose_url = `${process.env.MONGODB_URL}/${mongodb_db}`
+
+
 mongoose.connect(process.env.MONGODB_URL, mongoose_options)
 
 const db = mongoose.connection
