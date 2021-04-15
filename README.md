@@ -1,5 +1,5 @@
 # Mongoose REST API
-A simple REST API for MongoDB using Mongoose
+A simple REST API for MongoDB using the Mongoose ORM
 
 ## API
 
@@ -16,4 +16,14 @@ A simple REST API for MongoDB using Mongoose
 | Variable | Description |
 | --- | --- |
 | MONGODB_URL | The URL of the MongoDB database to be used by the service |
+| MONGODB_COLLECTION | Collection be used by the service |
 | APP_PORT | OPTIONAL The port used by Express to listen to |
+
+## Model
+
+```javascript
+{
+  title: String,
+  description: String,
+}
+```
