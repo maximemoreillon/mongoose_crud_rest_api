@@ -16,8 +16,7 @@ const mongoose_options = {
 const mongodb_db = process.env.MONGODB_DB || 'mongoose_crud_api'
 const mongoose_url = `${process.env.MONGODB_URL}/${mongodb_db}`
 
-
-mongoose.connect(process.env.MONGODB_URL, mongoose_options)
+mongoose.connect(mongoose_url, mongoose_options)
 
 const db = mongoose.connection
 db.on('error', console.error.bind(console, '[Mongoose] connection error:'))
@@ -39,3 +38,5 @@ app.use('/items', item_router)
 app.listen(APP_PORT, () => {
   console.log(`App listening on ${APP_PORT}`)
 })
+
+exports.app = app
