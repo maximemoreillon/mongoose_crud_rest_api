@@ -30,7 +30,7 @@ api-test:
       --network nodejs-tdd
       -e MONGODB_URL=mongodb://nodejs-tdd-db
       ${DOCKER_IMAGE}-dev
-      npm run test
+      npm run coverage
   after_script:
     # Remove database and network
     - echo "Stopping test database"
