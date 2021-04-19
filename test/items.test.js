@@ -4,7 +4,7 @@ const expect = require("chai").expect
 const app = require("../index.js").app
 
 // We will test for api users
-describe("api/users", () => {
+describe("/items", () => {
   // What to do after each test
   beforeEach(async () => {
     await Item.deleteMany({})
@@ -26,5 +26,5 @@ describe("api/users", () => {
       expect(res.body.length).to.equal(2)
     })
   })
-  
+
 })
