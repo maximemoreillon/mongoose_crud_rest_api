@@ -9,6 +9,7 @@ variables:
 
 api-build:
   stage: build
+  image: ruby:2.6
   tags:
     - test
   script:
@@ -17,6 +18,7 @@ api-build:
 
 api-test:
   stage: test
+  image: ruby:2.6
   tags:
     - test
   before_script:
