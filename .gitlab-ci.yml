@@ -9,7 +9,7 @@ variables:
 
 api-build:
   stage: build
-  image: 20.10.6-dind
+  image: 20.10-dind
   tags:
     - test
   script:
@@ -18,7 +18,7 @@ api-build:
 
 api-test:
   stage: test
-  image: 20.10.6-dind
+  image: 20.10-dind
   tags:
     - test
   before_script:
