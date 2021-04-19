@@ -10,8 +10,8 @@ variables:
 api-build:
   stage: build
   script:
-    - docker build -t {$DOCKER_IMAGE}-dev ./
-    - docker push {$DOCKER_IMAGE}-dev
+    - docker build -t ${DOCKER_IMAGE}-dev ./
+    - docker push ${DOCKER_IMAGE}-dev
 
 api-test:
   stage: test
@@ -28,7 +28,7 @@ api-test:
       --rm
       --name nodejs-tdd
       --network nodejs-tdd
-      {$DOCKER_IMAGE}-dev
+      ${DOCKER_IMAGE}-dev
       npm run test
   after_script:
     # Remove database and network
