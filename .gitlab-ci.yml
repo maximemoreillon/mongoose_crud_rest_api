@@ -28,7 +28,7 @@ api-test:
       --rm
       --name nodejs-tdd
       --network nodejs-tdd
-      -e MONGODB_URL mongodb://nodejs-tdd-db
+      -e MONGODB_URL=mongodb://nodejs-tdd-db
       ${DOCKER_IMAGE}-dev
       npm run test
   after_script:
