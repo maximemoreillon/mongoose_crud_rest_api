@@ -9,18 +9,12 @@ variables:
 
 api-build:
   stage: build
-  image: docker:20.10.6-dind
-  tags:
-    - test
   script:
     - docker build -t ${DOCKER_IMAGE}-dev ./
     - docker push ${DOCKER_IMAGE}-dev
 
 api-test:
   stage: test
-  image: docker:20.10.6-dind
-  tags:
-    - test
   before_script:
     - echo Setting up network if does not exist
     - if [ -z "$(docker network ls | grep 'nodejs-tdd')" ]; then docker network create nodejs-tdd; fi
