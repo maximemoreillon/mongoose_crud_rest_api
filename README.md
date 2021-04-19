@@ -1,4 +1,9 @@
 # Mongoose REST API
+
+[![pipeline status](http://10.115.1.14/education/mongoose_crud_rest_api/badges/tdd/pipeline.svg)](http://10.115.1.14/education/mongoose_crud_rest_api/-/commits/tdd)
+
+[![coverage report](http://10.115.1.14/education/mongoose_crud_rest_api/badges/tdd/coverage.svg)](http://10.115.1.14/education/mongoose_crud_rest_api/-/commits/tdd)
+
 A simple REST API for MongoDB using the Mongoose ORM
 
 ## API
