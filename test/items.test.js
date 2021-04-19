@@ -11,7 +11,7 @@ describe("/items", () => {
   })
 
   // We will test root GET related logics
-  describe("GET /", () => {
+  describe("GET /items", () => {
     // What should it do
     it("should return all items", async () => {
       const items = [
