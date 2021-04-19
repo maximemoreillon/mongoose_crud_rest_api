@@ -13,7 +13,7 @@ describe("/items", () => {
   // We will test root GET related logics
   describe("GET /", () => {
     // What should it do
-    it("should return all users", async () => {
+    it("should return all items", async () => {
       const items = [
         { title: "title1", description: "description1"},
         { title: "title2", description: "description2"},
