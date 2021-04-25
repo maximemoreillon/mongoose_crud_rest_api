@@ -1,10 +1,12 @@
 const Item = require('../models/item.js')
 
 exports.create_item = (req, res) => {
-  const {title, description} = req.body || req.query
+  const {title, description} = req.body
+
+  console.log(req.body)
 
   if(!title || !description) {
-    return res.status(400).send(`Missing name or description`)
+    return res.status(400).send(`Missing title or description`)
   }
 
   const new_item = new Item({title, description})

@@ -4,15 +4,15 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const item_router = require('./routes/items.js')
-
+const pjson = require('./package.json')
 dotenv.config()
 
 // Mongoose connection
 const mongoose_options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  //useFindAndModify: false
 }
+
 const mongodb_db = process.env.MONGODB_DB || 'mongoose_crud_api'
 const mongoose_url = `${process.env.MONGODB_URL}/${mongodb_db}`
 
@@ -29,7 +29,11 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.get('/', (req, res) => {
-  res.send('Mongoose CRUD REST API')
+  res.send({
+    application_name: 'Mongoose CRUD REST API',
+    author: pjson.author,
+    version: pjson.version,
+  })
 })
 
 app.use('/items', item_router)

@@ -1,6 +1,6 @@
 {
   "name": "mongoose_crud_rest_api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "coverage": "nyc mocha --timeout 15000 --exit"
   },
   "keywords": [],
-  "author": "",
+  "author": "Maxime MOREILLON",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
