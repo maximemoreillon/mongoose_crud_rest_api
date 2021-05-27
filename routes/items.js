@@ -6,13 +6,13 @@ const router = express.Router()
 
 
 router.route('/')
-  .post(controller.create_item)
-  .get(controller.read_all_items)
+  .post(controller.create)
+  .get(controller.read_all)
 
 router.route('/:item_id')
-  .get(controller.read_item)
-  .delete(controller.delete_item)
-  .put(controller.update_item)
+  .get(controller.read)
+  .delete(controller.delete)
+  .put(controller.update)
 
 
 module.exports = router

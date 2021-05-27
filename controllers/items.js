@@ -1,6 +1,6 @@
 const Item = require('../models/item.js')
 
-exports.create_item = (req, res) => {
+exports.create = (req, res) => {
   const {title, description} = req.body
 
   console.log(req.body)
@@ -21,7 +21,7 @@ exports.create_item = (req, res) => {
   })
 }
 
-exports.read_item = (req, res) => {
+exports.read = (req, res) => {
   const {item_id} = req.params
   if(!item_id) return res.status(400).send(`Item ID not defined`)
 
@@ -36,7 +36,7 @@ exports.read_item = (req, res) => {
   })
 }
 
-exports.update_item = (req, res) => {
+exports.update = (req, res) => {
   const {item_id} = req.params
   if(!item_id) return res.status(400).send(`Item ID not defined`)
 
@@ -53,7 +53,7 @@ exports.update_item = (req, res) => {
   })
 }
 
-exports.delete_item = (req, res) => {
+exports.delete = (req, res) => {
   const {item_id} = req.params
   if(!item_id) return res.status(400).send(`Item ID not defined`)
 
@@ -68,7 +68,7 @@ exports.delete_item = (req, res) => {
   })
 }
 
-exports.read_all_items = (req, res) => {
+exports.read_all = (req, res) => {
   Item.find({})
   .then(items => {
     console.log(`[Mongoose] Items queried`)
