@@ -7,7 +7,7 @@ variables:
   CONTAINER_REGISTRY_URL: 732469118990.dkr.ecr.ap-northeast-1.amazonaws.com
   CONTAINER_IMAGE: ${CONTAINER_REGISTRY_URL}/${APPLICATION_NAME}:${CI_COMMIT_SHORT_SHA}
   NODEPORT: 30683
-  K8S_ECR_SECRET_NAME: ecr-credentials
+  K8S_ECR_SECRET: ecr-credentials
   K8S_NAMESPACE: education
 
 build:
@@ -39,7 +39,7 @@ deploy:
     # Here, we use apply to update it
     # https://stackoverflow.com/questions/47369351/kubectl-apply-vs-kubectl-create
     - >
-      kubectl create secret docker-registry ${K8S_ECR_SECRET_NAME}
+      kubectl create secret docker-registry ${K8S_ECR_SECRET}
       --docker-server=${CONTAINER_REGISTRY_URL}
       --docker-username=AWS
       --docker-password $(aws ecr get-login-password)
