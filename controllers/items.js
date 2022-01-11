@@ -31,6 +31,7 @@ exports.read_item = async (req, res) => {
     const {_id} = req.params
     const item = await Item.findOne({_id})
     res.send(item)
+    console.log(`[Mongoose] Item ${_id} queried`)
   } catch (error) {
     error_handling(error,res)
   }
@@ -43,6 +44,7 @@ exports.update_item = async (req, res) => {
     const properties = req.body
     const result = await Item.findOneAndUpdate({_id},properties)
     res.send(result)
+    console.log(`[Mongoose] Item ${_id} updated`)
   } catch (error) {
     error_handling(error,res)
   }
