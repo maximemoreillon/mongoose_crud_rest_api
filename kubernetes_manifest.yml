@@ -17,6 +17,8 @@ spec:
         image: ${CONTAINER_IMAGE}
         ports:
         - containerPort: 7070
+      imagePullSecrets:
+      - name: ${K8S_ECR_SECRET}
 ---
 apiVersion: v1
 kind: Service
