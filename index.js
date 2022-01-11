@@ -15,7 +15,7 @@ app.use(express.json()) // Enable using JSON in request body
 
 // Root route
 app.get('/', (req, res) => {
-  res.send({application_name: 'MEVN CRUD back-end'})
+  res.send({application_name: 'MEVN CRUD back-end v2'})
 })
 
 // Routes related to items in separate file
