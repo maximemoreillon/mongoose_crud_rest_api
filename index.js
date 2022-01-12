@@ -1,9 +1,11 @@
 const express = require('express')
 const cors = require('cors')
-const {express_port} = require('./config.js')
 const item_router = require('./routes/items.js')
+const dotenv = require('dotenv')
 const {connect: db_connect} = require('./db.js')
+dotenv.config()
 
+const express_port = process.env.EXPRESS_PORT || 80
 
 db_connect()
 
