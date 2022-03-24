@@ -10,10 +10,16 @@ variables:
   K8S_ECR_SECRET: ecr-credentials
   K8S_NAMESPACE: education
 
+image: moreillon/ci-dind:4bca50d7
+services:
+  - name: docker:19.03.12-dind
+
 build:
   stage: build
   only:
     - master
+  tags:
+    - dind
   before_script:
     # Create repository in ECR if needed
     - >
@@ -37,6 +43,8 @@ deploy:
   stage: deploy
   only:
     - master
+  tags:
+    - dind
   before_script:
         # Create namespace if it does not exist yet
         - kubectl create namespace ${K8S_NAMESPACE} || echo "Namespace might have already existed"

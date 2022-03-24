@@ -3,13 +3,20 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-const {MONGODB_URL, MONGODB_DB} = process.env
+const {
+  MONGODB_URL = 'mongodb://localhost',
+  MONGODB_DB = 'mevn_crud'
+} = process.env
 
 exports.connect = async () => {
   try {
-    await mongoose.connect(`${MONGODB_URL}/${MONGODB_DB}`)
+    const connection_url = `${MONGODB_URL}/${MONGODB_DB}`
+    console.log(`[Mongoose] Connecting to ${connection_url}`)
+    
+    await mongoose.connect(connection_url)
     console.log(`[Mongoose] MongoDB connected`)
-  } catch (e) {
+  }
+  catch (e) {
     console.log(`[Mongoose] MongoDB connection ERROR`)
   }
 }

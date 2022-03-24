@@ -1,6 +1,7 @@
 const dotenv = require('dotenv')
 const express = require('express')
 const cors = require('cors')
+const {version} = require('./package.json')
 const {connect: db_connect} = require('./db.js')
 const movies_router = require('./routes/movies.js')
 const persons_router = require('./routes/persons.js')
@@ -22,7 +23,10 @@ app.use(express.json()) // Enable using JSON in request body
 
 // Root route
 app.get('/', (req, res) => {
-  res.send({application_name: 'MEVN CRUD back-end'})
+  res.send({
+    application_name: 'MEVN CRUD back-end',
+    version,
+  })
 })
 
 // Routes related to items in separate file
