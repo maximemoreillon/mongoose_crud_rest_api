@@ -1,11 +1,16 @@
+const dotenv = require('dotenv')
 const express = require('express')
 const cors = require('cors')
-const item_router = require('./routes/items.js')
-const dotenv = require('dotenv')
 const {connect: db_connect} = require('./db.js')
-dotenv.config()
+const movies_router = require('./routes/movies.js')
+const persons_router = require('./routes/persons.js')
 
-const express_port = process.env.EXPRESS_PORT || 80
+
+dotenv.config() // Read .env file
+
+const {
+  EXPRESS_PORT = 80
+} = process.env
 
 db_connect()
 
@@ -17,13 +22,14 @@ app.use(express.json()) // Enable using JSON in request body
 
 // Root route
 app.get('/', (req, res) => {
-  res.send({application_name: 'MEVN CRUD back-end v2'})
+  res.send({application_name: 'MEVN CRUD back-end'})
 })
 
 // Routes related to items in separate file
-app.use('/items', item_router)
+app.use('/movies', movies_router)
+app.use('/persons', persons_router)
 
 // Listen on designated port
-app.listen(express_port, () => {
-  console.log(`[Express] App listening on port ${express_port}`)
+app.listen(EXPRESS_PORT, () => {
+  console.log(`[Express] App listening on port ${EXPRESS_PORT}`)
 })
