@@ -38,6 +38,8 @@ exports.read_movie = async (req, res, next) => {
       .findOne({_id})
       .populate('director')
 
+    if(!movie) return res.status(404).send(`Movie ${_id} not found`)
+
     console.log(`[Mongoose] Movie ${_id} queried`)
     res.send(movie)
   }

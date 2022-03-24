@@ -32,6 +32,7 @@ exports.read_person = async (req, res, next) => {
   try {
     const {_id} = req.params
     const person = await Person.findOne({_id})
+    if(!person) return res.status(404).send(`Person ${_id} not found`)
     console.log(`[Mongoose] Person ${_id} queried`)
     res.send(person)
   }
@@ -45,9 +46,10 @@ exports.update_person = async (req, res, next) => {
   try {
     const {_id} = req.params
     const properties = req.body
-    const result = await Person.findOneAndUpdate({_id},properties)
+    const person = await Person.findOneAndUpdate({_id},properties)
+    if(!person) return res.status(404).send(`Person ${_id} not found`)
     console.log(`[Mongoose] Person ${_id} updated`)
-    res.send(result)
+    res.send(person)
   }
   catch (error) {
     next(error)
@@ -58,9 +60,10 @@ exports.update_person = async (req, res, next) => {
 exports.delete_person = async (req, res, next) => {
   try {
     const {_id} = req.params
-    const result = await Person.findOneAndDelete({_id})
+    const person = await Person.findOneAndDelete({_id})
+    if(!person) return res.status(404).send(`Person ${_id} not found`)
     console.log(`[Mongoose] Person ${_id} deleted`)
-    res.send(result)
+    res.send(person)
   }
   catch (error) {
     next(error)
