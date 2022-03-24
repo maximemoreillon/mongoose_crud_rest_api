@@ -12,7 +12,7 @@ variables:
 
 build:
   stage: build
-  onky:
+  only:
     - master
   before_script:
     # Create repository in ECR if needed
