@@ -37,3 +37,5 @@ app.use('/persons', persons_router)
 app.listen(EXPRESS_PORT, () => {
   console.log(`[Express] App listening on port ${EXPRESS_PORT}`)
 })
+
+exports.app = app
