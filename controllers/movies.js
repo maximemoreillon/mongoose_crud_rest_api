@@ -15,13 +15,24 @@ exports.create_movie = async (req, res) => {
 
 exports.read_movies = async (req, res, next) => {
   try {
+
     const query = {}
-    const movies = await Movie
+    
+    const { skip = 0, limit = 10 } = req.query
+
+    const items = await Movie
       .find(query)
+      .skip(Number(skip))
+      .limit(Number(limit))
       .populate('director')
+    
+    const total = await Movie.countDocuments(query)
+
+    const response = { total, skip, limit, items }
+
 
     console.log(`[Mongoose] Movies queried`)
-    res.send(movies)
+    res.send(response)
   }
   catch (error) {
     next(error)
