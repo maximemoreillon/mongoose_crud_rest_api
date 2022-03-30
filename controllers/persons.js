@@ -15,10 +15,33 @@ exports.create_person = async (req, res, next) => {
 
 exports.read_persons = async (req, res, next) => {
   try {
+
     const query = {}
-    const persons = await Person.find(query)
+
+    const {
+      skip = 0,
+      limit = 10,
+    } = req.query
+
+    
+    const items = await Person
+      .find(query)
+      .skip(Number(skip))
+      .limit(Number(limit))
+    
+    const total = await Person.countDocuments(query)
+
+    const response = {
+      total,
+      skip,
+      limit,
+      items,
+    }
+
     console.log(`[Mongoose] Persons queried`)
-    res.send(persons)
+
+
+    res.send(response)
   }
   catch (error) {
     next(error)
