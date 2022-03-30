@@ -23,7 +23,7 @@ exports.read_movies = async (req, res, next) => {
     const items = await Movie
       .find(query)
       .skip(Number(skip))
-      .limit(Number(limit))
+      .limit(Math.max(Number(limit), 0))
       .populate('director')
     
     const total = await Movie.countDocuments(query)
