@@ -24,7 +24,7 @@ exports.read_persons = async (req, res, next) => {
     const items = await Person
       .find(query)
       .skip(Number(skip))
-      .limit(Number(limit))
+      .limit(Math.max(Number(limit), 0))
     
     const total = await Person.countDocuments(query)
 
