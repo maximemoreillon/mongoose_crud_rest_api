@@ -17,15 +17,24 @@ exports.read_movies = async (req, res, next) => {
   try {
 
     const query = {}
-    
-    const { skip = 0, limit = 10 } = req.query
+
+    const {
+      skip = 0,
+      limit = 10,
+      sort = '_id',
+      order = 1,
+    } = req.query
+
+    const sort_and_order = {}
+    sort_and_order[sort] = order
 
     const items = await Movie
       .find(query)
+      .populate('director')
+      .sort(sort_and_order)
       .skip(Number(skip))
       .limit(Math.max(Number(limit), 0))
-      .populate('director')
-    
+
     const total = await Movie.countDocuments(query)
 
     const response = { total, skip, limit, items }
