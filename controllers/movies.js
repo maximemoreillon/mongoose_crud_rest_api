@@ -1,6 +1,6 @@
 const Movie = require('../models/movie.js')
 
-exports.create_movie = async (req, res) => {
+exports.create_movie = async (req, res, next) => {
   try {
     const properties = req.body
     const movie = await Movie.create(properties)
