@@ -26,6 +26,27 @@ exports.read_item = async (req, res, next) => {
 
 }
 
+exports.read_items = async (req, res, next) => {
+  try {
+
+    const {
+      limit = 100,
+      skip = 0,
+    } = req.query
+
+    const items = await Item
+      .find({})
+      .skip(Number(skip))
+      .limit(Number(limit))
+
+    res.send(items)
+  } 
+  catch (error) {
+    next(error)
+  }
+}
+
+
 exports.update_item = async (req, res, next) => {
 
   try {
@@ -56,22 +77,3 @@ exports.delete_item = async (req, res, next) => {
 
 }
 
-exports.read_items = async (req, res, next) => {
-  try {
-
-    const {
-      limit = 100,
-      skip = 0,
-    } = req.query
-
-    const items = await Item
-      .find({})
-      .skip(Number(skip))
-      .limit(Number(limit))
-
-    res.send(item)
-  } 
-  catch (error) {
-    next(error)
-  }
-}

@@ -1,30 +1,73 @@
-const Item = require("../models/item.js")
 const request = require("supertest")
-const expect = require("chai").expect
-const app = require("../index.js").app
+const {expect} = require("chai")
+const {app} = require("../index.js")
 
-// We will test for api users
 describe("/items", () => {
-  // What to do after each test
-  beforeEach(async () => {
-    await Item.deleteMany({})
-  })
 
-  // We will test root GET related logics
-  describe("GET /items", () => {
-    // What should it do
-    it("should return all items", async () => {
-      const items = [
-        { title: "title1", description: "description1"},
-        { title: "title2", description: "description2"},
-      ]
-      await Item.insertMany(items)
-      const res = await request(app).get("/items")
+  let item_id
 
-      // Test the expected outcome
-      expect(res.status).to.equal(200)
-      expect(res.body.length).to.equal(2)
+  describe("POST /items", () => {
+
+    it("should allow the creation of an item", async () => {
+    
+
+      const {status, body} = await request(app)
+        .post(`/items`)
+        .send({title: 'example'})
+      
+      item_id = body._id
+
+      expect(status).to.equal(200)
     })
   })
+
+  describe("GET /items/", () => {
+
+    it("should allow the query of all items", async () => {
+    
+      const {status} = await request(app)
+        .get(`/items`)
+      
+      expect(status).to.equal(200)
+    })
+  })
+
+  describe("GET /items/:item_id", () => {
+
+    it("should allow the query of an item", async () => {
+    
+      const {status} = await request(app)
+        .get(`/items/${item_id}`)
+      
+      expect(status).to.equal(200)
+    })
+  })
+
+  describe("PUT /items/:item_id", () => {
+
+    it("should allow the update of an item", async () => {
+    
+      const {status} = await request(app)
+        .put(`/items/${item_id}`)
+        .send({description: 'Example description'})
+      
+      expect(status).to.equal(200)
+    })
+  })
+
+  describe("DELETE /items/:item_id", () => {
+
+    it("should allow the deletion of an item", async () => {
+    
+      const {status} = await request(app)
+        .delete(`/items/${item_id}`)
+      
+      expect(status).to.equal(200)
+    })
+  })
+
+
+
+
 
 })
