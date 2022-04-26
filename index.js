@@ -1,38 +1,24 @@
 const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
 const item_router = require('./routes/items.js')
-const pjson = require('./package.json')
+const {connect: db_connect} = require('./db.js')
+const {version, author} = require('./package.json')
 dotenv.config()
 
-// Mongoose connection
-const mongoose_options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}
+db_connect()
 
-const mongodb_db = process.env.MONGODB_DB || 'mongoose_crud_api'
-const mongoose_url = `${process.env.MONGODB_URL}/${mongodb_db}`
-
-mongoose.connect(mongoose_url, mongoose_options)
-
-const db = mongoose.connection
-db.on('error', console.error.bind(console, '[Mongoose] connection error:'))
-db.once('open', () => { console.log('[Mongoose] Connected') })
-
-const APP_PORT = process.env.APP_PORT || 80
+const {APP_PORT = 80} = process.env
 
 const app = express()
-app.use(bodyParser.json())
+app.use(express.json())
 app.use(cors())
 
 app.get('/', (req, res) => {
   res.send({
     application_name: 'Mongoose CRUD REST API',
-    author: pjson.author,
-    version: pjson.version,
+    author,
+    version,
   })
 })
 

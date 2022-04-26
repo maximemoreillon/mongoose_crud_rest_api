@@ -1,81 +1,77 @@
 const Item = require('../models/item.js')
 
-exports.create = (req, res) => {
-  const {title, description} = req.body
+exports.create_item = async (req, res, next) => {
+  
+  try {
+    const properties = req.body
+    const new_item = await Item.create(properties)
+    res.send(new_item)
+  } 
+  catch (error) {
+    next(error)
+  }
+  
+}
 
-  console.log(req.body)
+exports.read_item = async (req, res, next) => {
 
-  if(!title || !description) {
-    return res.status(400).send(`Missing title or description`)
+  try {
+    const {item_id} = req.params
+    const item = await Item.findById(item_id)
+    res.send(item)
+  } 
+  catch (error) {
+    next(error)
   }
 
-  const new_item = new Item({title, description})
-  new_item.save()
-  .then((result) => {
-    console.log(`[Mongoose] New item inserted`)
-    res.send(result)
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send('Error')
-  })
 }
 
-exports.read = (req, res) => {
-  const {item_id} = req.params
-  if(!item_id) return res.status(400).send(`Item ID not defined`)
+exports.update_item = async (req, res, next) => {
 
-  Item.findById(item_id)
-  .then(item => {
-    console.log(`[Mongoose] Item ${item_id} queried`)
+  try {
+    const {item_id} = req.params
+    const new_properties = req.body
+
+    const reult = await Item.updateOne({_id: item_id}, new_properties)
+
+    res.send(reult)
+  } 
+  catch (error) {
+    next(error)
+  }
+}
+
+exports.delete_item = async (req, res, next) => {
+
+  try {
+    const {item_id} = req.params
+
+    const result = await Item.deleteOne({_id: item_id})
+
+    res.send(result)
+  } 
+  catch (error) {
+    next(error)
+  }
+
+}
+
+exports.read_items = async (req, res, next) => {
+  try {
+
+    const {
+      limit = 100,
+      skip = 0,
+    } = req.query
+
+    const items = await Item
+      .find({})
+      .skip(Number(skip))
+      .limit(Number(limit))
+
     res.send(item)
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send(error)
-  })
-}
-
-exports.update = (req, res) => {
-  const {item_id} = req.params
-  if(!item_id) return res.status(400).send(`Item ID not defined`)
-
-  const new_properties = req.body
-
-  Item.updateOne({_id: item_id}, new_properties)
-  .then((result) => {
-    console.log(`[Mongoose] Item ${item_id} updated`)
-    res.send(result)
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send(error)
-  })
-}
-
-exports.delete = (req, res) => {
-  const {item_id} = req.params
-  if(!item_id) return res.status(400).send(`Item ID not defined`)
-
-  Item.deleteOne({_id: item_id})
-  .then(() => {
-    console.log(`[Mongoose] Item ${item_id} deleted`)
-    res.send('OK')
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send(error)
-  })
-}
-
-exports.read_all = (req, res) => {
-  Item.find({})
-  .then(items => {
-    console.log(`[Mongoose] Items queried`)
-    res.send(items)
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send(error)
-  })
+  } 
+  catch (error) {
+    next(error)
+  }
 }
