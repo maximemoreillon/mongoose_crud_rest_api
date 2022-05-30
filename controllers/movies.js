@@ -25,13 +25,10 @@ exports.read_movies = async (req, res, next) => {
       order = 1,
     } = req.query
 
-    const sort_and_order = {}
-    sort_and_order[sort] = order
-
     const items = await Movie
       .find(query)
       .populate('director')
-      .sort(sort_and_order)
+      .sort({ [sort]: order })
       .skip(Number(skip))
       .limit(Math.max(Number(limit), 0))
 

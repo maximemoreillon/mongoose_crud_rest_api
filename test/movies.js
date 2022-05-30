@@ -8,7 +8,7 @@ describe( '/movies', () => {
 
     before( async () => {
         // Silence console
-        //console.log = () => {}
+        console.log = () => {}
     })
 
     describe( 'POST /movies', async () => {

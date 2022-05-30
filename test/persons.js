@@ -8,7 +8,7 @@ describe( '/persons', () => {
 
     before( async () => {
         // Silence console
-        //console.log = () => {}
+        console.log = () => {}
     })
 
     describe( 'POST /persons', async () => {
