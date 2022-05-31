@@ -33,6 +33,14 @@ app.get('/', (req, res) => {
 app.use('/movies', movies_router)
 app.use('/persons', persons_router)
 
+// Express error handling
+app.use((err, req, res, next) => {
+  console.error(err)
+  const { statusCode = 500, message } = err
+  res.status(statusCode).send(message)
+})
+
+
 // Listen on designated port
 app.listen(EXPRESS_PORT, () => {
   console.log(`[Express] App listening on port ${EXPRESS_PORT}`)
