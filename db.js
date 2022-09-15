@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
+// Read environment variables
 const {
   MONGODB_URL = 'mongodb://localhost',
   MONGODB_DB = 'mevn_crud'

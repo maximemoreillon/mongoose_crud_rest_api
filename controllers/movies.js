@@ -91,8 +91,11 @@ exports.delete_movie = async (req, res, next) => {
   try {
     const {_id} = req.params
     const result = await Movie.findOneAndDelete({_id})
-    console.log(`[Mongoose] Movie ${_id} deleted`)
 
+    // Throw an HTTP 404 if the movie was not found in the DB
+    if (!movie) throw createHttpError(404, `Movie ${_id} not found`) 
+
+    console.log(`[Mongoose] Movie ${_id} deleted`)
     res.send(result)
   }
   catch (error) {
