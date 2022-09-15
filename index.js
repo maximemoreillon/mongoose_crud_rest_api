@@ -1,10 +1,10 @@
 const dotenv = require('dotenv')
 const express = require('express')
 const cors = require('cors')
-const {version} = require('./package.json')
-const {connect: db_connect} = require('./db.js')
+const db = require('./db.js')
 const movies_router = require('./routes/movies.js')
 const persons_router = require('./routes/persons.js')
+const {version} = require('./package.json')
 
 
 dotenv.config() // Read .env file
@@ -13,7 +13,7 @@ const {
   EXPRESS_PORT = 80
 } = process.env
 
-db_connect()
+db.connect()
 
 // Create an app
 const app = express()

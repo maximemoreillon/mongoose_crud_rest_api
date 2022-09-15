@@ -1,4 +1,6 @@
 const Movie = require('../models/movie.js')
+const createHttpError = require('http-errors')
+
 
 exports.create_movie = async (req, res, next) => {
   try {
@@ -55,7 +57,8 @@ exports.read_movie = async (req, res, next) => {
       .findOne({_id})
       .populate('director')
 
-    if(!movie) return res.status(404).send(`Movie ${_id} not found`)
+    // Throw an HTTP 404 if the movie was not found in the DB
+    if (!movie) throw createHttpError(404, `Movie ${ _id } not found`) 
 
     console.log(`[Mongoose] Movie ${_id} queried`)
     res.send(movie)
@@ -70,9 +73,13 @@ exports.update_movie = async (req, res, next) => {
   try {
     const {_id} = req.params
     const properties = req.body
-    const result = await Movie.findOneAndUpdate({_id},properties)
+    const movie = await Movie.findOneAndUpdate({_id},properties)
+
+    // Throw an HTTP 404 if the movie was not found in the DB
+    if (!movie) throw createHttpError(404, `Movie ${ _id } not found`) 
+
     console.log(`[Mongoose] Movie ${_id} updated`)
-    res.send(result)
+    res.send(movie)
   }
   catch (error) {
     next(error)

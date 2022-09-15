@@ -8,7 +8,7 @@ const {
   MONGODB_DB = 'mevn_crud'
 } = process.env
 
-exports.connect = async () => {
+const connect = async () => {
   try {
     const connection_url = `${MONGODB_URL}/${MONGODB_DB}`
     console.log(`[Mongoose] Connecting to ${connection_url}`)
@@ -18,5 +18,8 @@ exports.connect = async () => {
   }
   catch (e) {
     console.log(`[Mongoose] MongoDB connection ERROR`)
+    setTimeout(connect, 5000)
   }
 }
+
+exports.connect = connect

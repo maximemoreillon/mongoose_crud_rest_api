@@ -1,4 +1,5 @@
 const Person = require('../models/person.js')
+const createHttpError = require('http-errors')
 
 exports.create_person = async (req, res, next) => {
   try {
@@ -51,7 +52,10 @@ exports.read_person = async (req, res, next) => {
   try {
     const {_id} = req.params
     const person = await Person.findOne({_id})
-    if(!person) return res.status(404).send(`Person ${_id} not found`)
+
+    // Throw an HTTP 404 if the person was not found in the DB
+    if (!person) throw createHttpError(404, `Person ${_id} not found`) 
+
     console.log(`[Mongoose] Person ${_id} queried`)
     res.send(person)
   }
@@ -66,7 +70,10 @@ exports.update_person = async (req, res, next) => {
     const {_id} = req.params
     const properties = req.body
     const person = await Person.findOneAndUpdate({_id},properties)
-    if(!person) return res.status(404).send(`Person ${_id} not found`)
+
+    // Throw an HTTP 404 if the person was not found in the DB
+    if (!person) throw createHttpError(404, `Person ${_id} not found`) 
+        
     console.log(`[Mongoose] Person ${_id} updated`)
     res.send(person)
   }
