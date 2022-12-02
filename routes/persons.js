@@ -9,7 +9,6 @@ const {
 
 const router = Router()
 
-// /persons routes
 router.route('/')
   .get(read_persons)
   .post(create_person)
