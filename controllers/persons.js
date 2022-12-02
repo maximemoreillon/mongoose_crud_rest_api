@@ -17,13 +17,12 @@ exports.create_person = async (req, res, next) => {
 exports.read_persons = async (req, res, next) => {
   try {
 
-    const query = {}
-
     const {
       skip = 0,
       limit = 10,
       sort = '_id',
       order = 1,
+      ...query
     } = req.query
 
     const items = await Person
@@ -53,7 +52,6 @@ exports.read_person = async (req, res, next) => {
     const {_id} = req.params
     const person = await Person.findOne({_id})
 
-    // Throw an HTTP 404 if the person was not found in the DB
     if (!person) throw createHttpError(404, `Person ${_id} not found`) 
 
     console.log(`[Mongoose] Person ${_id} queried`)
@@ -71,7 +69,6 @@ exports.update_person = async (req, res, next) => {
     const properties = req.body
     const person = await Person.findOneAndUpdate({_id},properties)
 
-    // Throw an HTTP 404 if the person was not found in the DB
     if (!person) throw createHttpError(404, `Person ${_id} not found`) 
 
     console.log(`[Mongoose] Person ${_id} updated`)
@@ -88,7 +85,6 @@ exports.delete_person = async (req, res, next) => {
     const {_id} = req.params
     const person = await Person.findOneAndDelete({_id})
 
-    // Throw an HTTP 404 if the person was not found in the DB
     if (!person) throw createHttpError(404, `Person ${_id} not found`)
     
     console.log(`[Mongoose] Person ${_id} deleted`)
