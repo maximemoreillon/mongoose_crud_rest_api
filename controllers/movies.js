@@ -18,13 +18,13 @@ exports.create_movie = async (req, res, next) => {
 exports.read_movies = async (req, res, next) => {
   try {
 
-    const query = {}
 
     const {
       skip = 0,
       limit = 10,
       sort = '_id',
       order = 1,
+      ...query
     } = req.query
 
     const items = await Movie
@@ -57,7 +57,6 @@ exports.read_movie = async (req, res, next) => {
       .findOne({_id})
       .populate('director')
 
-    // Throw an HTTP 404 if the movie was not found in the DB
     if (!movie) throw createHttpError(404, `Movie ${ _id } not found`) 
 
     console.log(`[Mongoose] Movie ${_id} queried`)
@@ -75,7 +74,6 @@ exports.update_movie = async (req, res, next) => {
     const properties = req.body
     const movie = await Movie.findOneAndUpdate({_id},properties)
 
-    // Throw an HTTP 404 if the movie was not found in the DB
     if (!movie) throw createHttpError(404, `Movie ${ _id } not found`) 
 
     console.log(`[Mongoose] Movie ${_id} updated`)
@@ -90,9 +88,8 @@ exports.update_movie = async (req, res, next) => {
 exports.delete_movie = async (req, res, next) => {
   try {
     const {_id} = req.params
-    const result = await Movie.findOneAndDelete({_id})
+    const movie = await Movie.findOneAndDelete({_id})
 
-    // Throw an HTTP 404 if the movie was not found in the DB
     if (!movie) throw createHttpError(404, `Movie ${_id} not found`) 
 
     console.log(`[Mongoose] Movie ${_id} deleted`)
