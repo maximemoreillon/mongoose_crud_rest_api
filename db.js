@@ -1,34 +1,26 @@
-const dotenv = require('dotenv')
 const mongoose = require('mongoose')
+const dotenv = require('dotenv')
 
 dotenv.config()
 
-// Mongoose connection
-const mongoose_options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}
-
-
+// Read environment variables
 const {
-    MONGODB_DB = 'mongoose_crud_api',
-    MONGODB_URL = 'mongodb://localhost',
+  MONGODB_URL = 'mongodb://localhost',
+  MONGODB_DB = 'mevn_crud'
 } = process.env
 
-const connection_string = `${MONGODB_URL}/${MONGODB_DB}`
-
-
-const connect = () => {
-    console.log(`MongoDB connecting to ${connection_string}`);
-    mongoose.connect(connection_string, mongoose_options)
-
-    const db = mongoose.connection
-    db.on('error', console.error.bind(console, '[Mongoose] connection error:'))
-    db.once('open', () => { console.log('[Mongoose] Connected') })
+const connect = async () => {
+  try {
+    const connection_url = `${MONGODB_URL}/${MONGODB_DB}`
+    console.log(`[Mongoose] Connecting to ${connection_url}`)
+    
+    await mongoose.connect(connection_url)
+    console.log(`[Mongoose] MongoDB connected`)
+  }
+  catch (e) {
+    console.log(`[Mongoose] MongoDB connection ERROR`)
+    setTimeout(connect, 5000)
+  }
 }
 
-
-
-exports.db = MONGODB_DB
-exports.url = MONGODB_URL
 exports.connect = connect
