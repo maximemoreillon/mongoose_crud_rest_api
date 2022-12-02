@@ -1,4 +1,0 @@
-node_modules
-.nyc_output
-# Normally it would be better not to publish .env but this is an example
-#.env
