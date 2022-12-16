@@ -93,7 +93,7 @@ exports.delete_movie = async (req, res, next) => {
     if (!movie) throw createHttpError(404, `Movie ${_id} not found`) 
 
     console.log(`[Mongoose] Movie ${_id} deleted`)
-    res.send(result)
+    res.send(movie)
   }
   catch (error) {
     next(error)
