@@ -56,6 +56,8 @@ exports.read_movie = async (req, res, next) => {
     const movie = await Movie
       .findOne({_id})
       .populate('director')
+      .populate('actors')
+
 
     if (!movie) throw createHttpError(404, `Movie ${ _id } not found`) 
 
@@ -72,12 +74,13 @@ exports.update_movie = async (req, res, next) => {
   try {
     const {_id} = req.params
     const properties = req.body
-    const movie = await Movie.findOneAndUpdate({_id},properties)
 
-    if (!movie) throw createHttpError(404, `Movie ${ _id } not found`) 
+    // NOTE: updating using save() is the recommended way
+    const updatedMovie = await Movie.findOneAndUpdate({ _id }, properties, { new: true })
+    if (!updatedMovie) throw createHttpError(404, `Movie ${ _id } not found`) 
 
     console.log(`[Mongoose] Movie ${_id} updated`)
-    res.send(movie)
+    res.send(updatedMovie)
   }
   catch (error) {
     next(error)

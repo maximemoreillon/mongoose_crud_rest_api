@@ -67,12 +67,12 @@ exports.update_person = async (req, res, next) => {
   try {
     const {_id} = req.params
     const properties = req.body
-    const person = await Person.findOneAndUpdate({_id},properties)
+    const updatedPerson = await Person.findOneAndUpdate({ _id }, properties, { new: true })
 
-    if (!person) throw createHttpError(404, `Person ${_id} not found`) 
+    if (!updatedPerson) throw createHttpError(404, `Person ${_id} not found`) 
 
     console.log(`[Mongoose] Person ${_id} updated`)
-    res.send(person)
+    res.send(updatedPerson)
   }
   catch (error) {
     next(error)

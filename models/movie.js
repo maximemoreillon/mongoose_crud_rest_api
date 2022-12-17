@@ -2,7 +2,7 @@ const {Schema, model, Types} = require('mongoose')
 
 const schema = new Schema({
   title: String,
-  year: Number,
+  year: {type: Number, default: new Date().getFullYear() },
   director: { type: Types.ObjectId, ref: 'Person' },
   actors: [{ type: Types.ObjectId, ref: 'Person' }]
 })
