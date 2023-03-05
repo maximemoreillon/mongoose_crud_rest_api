@@ -1,17 +1,15 @@
-const dotenv = require('dotenv')
-const express = require('express')
-const cors = require('cors')
-const db = require('./db.js')
-const movies_router = require('./routes/movies.js')
-const persons_router = require('./routes/persons.js')
-const {version} = require('./package.json')
-
+const dotenv = require("dotenv")
+const express = require("express")
+const cors = require("cors")
+const db = require("./db.js")
+const movies_router = require("./routes/movies.js")
+const persons_router = require("./routes/persons.js")
+const { version } = require("./package.json")
+require("express-async-errors")
 
 dotenv.config() // Read .env file
 
-const {
-  EXPRESS_PORT = 80
-} = process.env
+const { EXPRESS_PORT = 80 } = process.env
 
 db.connect()
 
@@ -22,16 +20,16 @@ app.use(cors()) // Allow cross-origin
 app.use(express.json()) // Enable using JSON in request body
 
 // Root route
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.send({
-    application_name: 'MEVN CRUD back-end',
+    application_name: "MEVN CRUD back-end",
     version,
   })
 })
 
 // Routes related to items in separate file
-app.use('/movies', movies_router)
-app.use('/persons', persons_router)
+app.use("/movies", movies_router)
+app.use("/persons", persons_router)
 
 // Express error handling
 app.use((err, req, res, next) => {
@@ -39,7 +37,6 @@ app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err
   res.status(statusCode).send(message)
 })
-
 
 // Listen on designated port
 app.listen(EXPRESS_PORT, () => {
