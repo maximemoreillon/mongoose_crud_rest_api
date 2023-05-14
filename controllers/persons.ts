@@ -1,15 +1,22 @@
-const Person = require("../models/person.js")
-const createHttpError = require("http-errors")
+import Person from "../models/person"
+import createHttpError from "http-errors"
+import { Request, Response } from "express"
 
-exports.create_person = async (req, res) => {
+export const create_person = async (req: Request, res: Response) => {
   const properties = req.body
   const person = await Person.create(properties)
   console.log(`[Mongoose] Person ${person._id} created`)
   res.send(person)
 }
 
-exports.read_persons = async (req, res) => {
-  const { skip = 0, limit = 10, sort = "_id", order = 1, ...query } = req.query
+export const read_persons = async (req: Request, res: Response) => {
+  const {
+    skip = 0,
+    limit = 10,
+    sort = "_id",
+    order = 1,
+    ...query
+  } = req.query as any
 
   const items = await Person.find(query)
     .sort({ [sort]: order })
@@ -25,7 +32,7 @@ exports.read_persons = async (req, res) => {
   res.send(response)
 }
 
-exports.read_person = async (req, res) => {
+export const read_person = async (req: Request, res: Response) => {
   const { _id } = req.params
   const person = await Person.findOne({ _id })
 
@@ -35,7 +42,7 @@ exports.read_person = async (req, res) => {
   res.send(person)
 }
 
-exports.update_person = async (req, res) => {
+export const update_person = async (req: Request, res: Response) => {
   const { _id } = req.params
   const properties = req.body
   const updatedPerson = await Person.findOneAndUpdate({ _id }, properties, {
@@ -48,7 +55,7 @@ exports.update_person = async (req, res) => {
   res.send(updatedPerson)
 }
 
-exports.delete_person = async (req, res) => {
+export const delete_person = async (req: Request, res: Response) => {
   const { _id } = req.params
   const person = await Person.findOneAndDelete({ _id })
 
