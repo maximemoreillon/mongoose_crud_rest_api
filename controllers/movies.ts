@@ -1,15 +1,22 @@
-const Movie = require("../models/movie.js")
-const createHttpError = require("http-errors")
+import Movie from "../models/movie"
+import createHttpError from "http-errors"
+import { Request, Response } from "express"
 
-exports.create_movie = async (req, res) => {
+export const create_movie = async (req: Request, res: Response) => {
   const properties = req.body
   const movie = await Movie.create(properties)
   console.log(`[Mongoose] Movie ${movie._id} created`)
   res.send(movie)
 }
 
-exports.read_movies = async (req, res) => {
-  const { skip = 0, limit = 10, sort = "_id", order = 1, ...query } = req.query
+export const read_movies = async (req: Request, res: Response) => {
+  const {
+    skip = 0,
+    limit = 10,
+    sort = "_id",
+    order = 1,
+    ...query
+  } = req.query as any
 
   const items = await Movie.find(query)
     .populate("director")
@@ -25,7 +32,7 @@ exports.read_movies = async (req, res) => {
   res.send(response)
 }
 
-exports.read_movie = async (req, res) => {
+export const read_movie = async (req: Request, res: Response) => {
   const { _id } = req.params
   const movie = await Movie.findOne({ _id })
     .populate("director")
@@ -37,7 +44,7 @@ exports.read_movie = async (req, res) => {
   res.send(movie)
 }
 
-exports.update_movie = async (req, res) => {
+export const update_movie = async (req: Request, res: Response) => {
   const { _id } = req.params
   const properties = req.body
 
@@ -51,7 +58,7 @@ exports.update_movie = async (req, res) => {
   res.send(updatedMovie)
 }
 
-exports.delete_movie = async (req, res) => {
+export const delete_movie = async (req: Request, res: Response) => {
   const { _id } = req.params
   const movie = await Movie.findOneAndDelete({ _id })
 
