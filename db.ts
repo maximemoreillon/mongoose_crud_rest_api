@@ -1,7 +1,4 @@
 import mongoose from "mongoose"
-import dotenv from "dotenv"
-
-dotenv.config()
 
 // Read environment variables
 const { MONGODB_URL = "mongodb://localhost", MONGODB_DB = "mevn_crud" } =

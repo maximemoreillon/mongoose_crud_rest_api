@@ -1,4 +1,5 @@
 import dotenv from "dotenv"
+dotenv.config()
 import express from "express"
 import "express-async-errors"
 import cors from "cors"
@@ -9,7 +10,6 @@ import { version } from "./package.json"
 import { Request, Response, NextFunction } from "express"
 import { HttpError } from "http-errors"
 
-dotenv.config() // Read .env file
 
 const { EXPRESS_PORT = 80 } = process.env
 
