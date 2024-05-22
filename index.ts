@@ -10,18 +10,15 @@ import { version } from "./package.json"
 import { Request, Response, NextFunction } from "express"
 import { HttpError } from "http-errors"
 
-
 const { EXPRESS_PORT = 80 } = process.env
 
 dbConnect()
 
-// Create an app
 export const app = express()
 
 app.use(cors()) // Allow cross-origin
 app.use(express.json()) // Enable using JSON in request body
 
-// Root route
 app.get("/", (req, res) => {
   res.send({
     application_name: "MEVN CRUD back-end",
@@ -29,7 +26,6 @@ app.get("/", (req, res) => {
   })
 })
 
-// Routes related to items in separate file
 app.use("/movies", movies_router)
 app.use("/persons", persons_router)
 

@@ -1,6 +1,5 @@
 import mongoose from "mongoose"
 
-// Read environment variables
 const { MONGODB_URL = "mongodb://localhost", MONGODB_DB = "mevn_crud" } =
   process.env
 
