@@ -3,7 +3,7 @@ dotenv.config()
 import express from "express"
 import "express-async-errors"
 import cors from "cors"
-import { connect as dbConnect } from "./db"
+import { connect as dbConnect, redactedConnectionString } from "./db"
 import movies_router from "./routes/movies"
 import persons_router from "./routes/persons"
 import { version } from "./package.json"
@@ -21,8 +21,9 @@ app.use(express.json()) // Enable using JSON in request body
 
 app.get("/", (req, res) => {
   res.send({
-    application_name: "MEVN CRUD back-end",
+    application_name: "Express + Mongoose CRUD",
     version,
+    mongodb_connection_string: redactedConnectionString,
   })
 })
 
@@ -38,5 +39,5 @@ app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
 
 // Listen on designated port
 app.listen(EXPRESS_PORT, () => {
-  console.log(`[Express] App listening on port ${EXPRESS_PORT}`)
+  console.log(`[Express] Express listening on port ${EXPRESS_PORT}`)
 })
