@@ -1,37 +1,21 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-export const {
-  MONGODB_CONNECTION_STRING,
-  MONGODB_PROTOCOL = "mongodb",
-  MONGODB_USERNAME,
-  MONGODB_PASSWORD,
-  MONGODB_HOST = "mongo",
-  MONGODB_PORT,
-  MONGODB_DB = "example",
-  MONGODB_OPTIONS = "",
-} = process.env
+export const { MONGODB_URI = "mongodb://localhost:27017/movies-crud" } =
+  process.env;
 
-const mongodbPort = MONGODB_PORT ? `:${MONGODB_PORT}` : ""
-
-const connectionString =
-  MONGODB_CONNECTION_STRING ||
-  (MONGODB_USERNAME && MONGODB_PASSWORD
-    ? `${MONGODB_PROTOCOL}://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}${mongodbPort}/${MONGODB_DB}${MONGODB_OPTIONS}`
-    : `${MONGODB_PROTOCOL}://${MONGODB_HOST}${mongodbPort}/${MONGODB_DB}${MONGODB_OPTIONS}`)
-
-export const redactedConnectionString = connectionString.replace(
+export const redactedConnectionString = MONGODB_URI.replace(
   /:.*@/,
   "://***:***@"
-)
+);
 
 export const connect = async () => {
   try {
-    console.log(`[Mongoose] Connecting to ${redactedConnectionString}`)
+    console.log(`[Mongoose] Connecting to ${redactedConnectionString}`);
 
-    await mongoose.connect(connectionString)
-    console.log(`[Mongoose] MongoDB connected`)
+    await mongoose.connect(MONGODB_URI);
+    console.log(`[Mongoose] MongoDB connected`);
   } catch (e) {
-    console.log(`[Mongoose] MongoDB connection ERROR`)
-    setTimeout(connect, 5000)
+    console.log(`[Mongoose] MongoDB connection ERROR`);
+    setTimeout(connect, 5000);
   }
-}
+};

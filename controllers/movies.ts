@@ -1,12 +1,22 @@
 import Movie from "../models/movie";
 import createHttpError from "http-errors";
 import { Request, Response } from "express";
+import { z } from "zod";
 
 export const create_movie = async (req: Request, res: Response) => {
   const properties = req.body;
   const movie = await Movie.create(properties);
   res.send(movie);
 };
+
+const searchParamsSchema = z.object({
+  skip: z.coerce.number().default(0),
+  limit: z.coerce.number().gt(0).default(10),
+  sort: z.string().default("_id"),
+  order: z.coerce
+    .number()
+    .pipe(z.union([z.literal(1), z.literal(-1)]).default(1)),
+});
 
 export const read_movies = async (req: Request, res: Response) => {
   const {
@@ -15,11 +25,11 @@ export const read_movies = async (req: Request, res: Response) => {
     sort = "_id",
     order = 1,
     ...query
-  } = req.query as any;
+  } = searchParamsSchema.parse(req.query);
 
   const items = await Movie.find(query)
     .sort({ [sort]: order })
-    .skip(Number(skip))
+    .skip(skip)
     .limit(Math.max(Number(limit), 0));
 
   const total = await Movie.countDocuments(query);

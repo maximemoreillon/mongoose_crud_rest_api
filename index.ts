@@ -1,7 +1,5 @@
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 import express from "express";
-import "express-async-errors";
 import cors from "cors";
 import { connect as dbConnect, redactedConnectionString } from "./db";
 import movies_router from "./routes/movies";
