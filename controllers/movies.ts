@@ -9,16 +9,16 @@ export const create_movie = async (req: Request, res: Response) => {
   res.send(movie);
 };
 
-const searchParamsSchema = z.object({
-  skip: z.coerce.number().default(0),
-  limit: z.coerce.number().gt(0).default(10),
-  sort: z.string().default("_id"),
-  order: z.coerce
-    .number()
-    .pipe(z.union([z.literal(1), z.literal(-1)]).default(1)),
-});
-
 export const read_movies = async (req: Request, res: Response) => {
+  const searchParamsSchema = z.object({
+    skip: z.coerce.number().default(0),
+    limit: z.coerce.number().gt(0).default(10),
+    sort: z.string().default("_id"),
+    order: z.coerce
+      .number()
+      .pipe(z.union([z.literal(1), z.literal(-1)]).default(1)),
+  });
+
   const {
     skip = 0,
     limit = 10,
