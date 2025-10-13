@@ -5,9 +5,8 @@ import { connect as dbConnect, redactedConnectionString } from "./db";
 import movies_router from "./routes/movies";
 import { version } from "./package.json";
 import { Request, Response, NextFunction } from "express";
-import { HttpError } from "http-errors";
-
-const { EXPRESS_PORT = 3001 } = process.env;
+import { HttpError, isHttpError } from "http-errors";
+const { EXPRESS_PORT = 3000 } = process.env;
 
 dbConnect();
 
@@ -27,10 +26,15 @@ app.get("/", (req, res) => {
 app.use("/movies", movies_router);
 
 // Express error handling
-app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
-  const { statusCode = 500, message } = err;
-  res.status(statusCode).send(message);
+  if (isHttpError(err)) {
+    const { statusCode = 500, message } = err;
+    res.status(statusCode).send(message);
+  } else {
+    const { message } = err;
+    res.status(500).send(message);
+  }
 });
 
 // Listen on designated port
